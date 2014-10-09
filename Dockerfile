@@ -1,11 +1,9 @@
 #Kibana
 
-FROM ubuntu
+FROM ubuntu:14.04
  
-RUN echo 'deb http://archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
-    echo 'deb http://archive.ubuntu.com/ubuntu precise-updates universe' >> /etc/apt/sources.list && \
-    apt-get update
-
+#RUN echo 'deb http://archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
+#    echo 'deb http://archive.ubuntu.com/ubuntu precise-updates universe' >> /etc/apt/sources.list && \
 #Prevent daemon start during install
 RUN	echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
@@ -29,7 +27,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server && \
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim less nano maven ntp net-tools inetutils-ping curl git telnet
 
 #Install Oracle Java 7
-RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' > /etc/apt/sources.list.d/java.list && \
+RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' > /etc/apt/sources.list.d/java.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
     apt-get update && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
@@ -49,7 +47,7 @@ RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.0.0.tar.gz &&
     mv kibana-* kibana
 
 #NGINX
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-software-properties && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common python-software-properties && \
     add-apt-repository ppa:nginx/stable && \
     echo 'deb http://packages.dotdeb.org squeeze all' >> /etc/apt/sources.list && \
     curl http://www.dotdeb.org/dotdeb.gpg | apt-key add - && \
