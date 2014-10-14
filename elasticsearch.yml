@@ -1,3 +1,4 @@
 cluster.name: "logstash"
 node.name: "logstash00"
-
+#http.cors.allow-origin: "thor.work.de,elk.docker.work.de"
+http.cors.allow-origin: "*"
