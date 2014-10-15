@@ -34,14 +34,15 @@ RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' > /e
     DEBIAN_FRONTEND=noninteractive apt-get install -y oracle-java7-installer
 
 #ElasticSearch
-RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.tar.gz && \
+RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.tar.gz && \
     tar xf elasticsearch-*.tar.gz && \
     rm elasticsearch-*.tar.gz && \
     mv elasticsearch-* elasticsearch && \
     elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 #Kibana
-RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz && \
+#RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz && \
+RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA1.1.tar.gz && \
     tar xf kibana-*.tar.gz && \
     rm kibana-*.tar.gz && \
     mv kibana-* kibana
@@ -80,7 +81,7 @@ RUN cd /docker-elk && \
     cp logstash-forwarder.crt /logstash/logstash-forwarder.crt && \
     cp logstash-forwarder.key /logstash/logstash-forwarder.key
 
-#ADD elasticsearch.yml /elasticsearch/config/
+ADD elasticsearch.yml /elasticsearch/config/
 
-#80=ngnx, 9200=elasticsearch, 49021=logstash, 49022=lumberjack, 9999=udp
-EXPOSE 22 80 9200 49021 49022 25826 9999/udp
+#80=ngnx, 5601=kibna, 9200=elasticsearch, 49021=logstash, 49022=lumberjack, 9999=udp
+EXPOSE 5601 9200 49021 49022 25826 9999/udp
