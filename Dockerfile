@@ -14,24 +14,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade
 
 #Supervisord
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y supervisor && \
 	mkdir -p /var/log/supervisor
 CMD ["/usr/bin/supervisord", "-n"]
 
 #SSHD
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y openssh-server && \
 	mkdir /var/run/sshd && chmod 700 /var/run/sshd && \
 	echo 'root:root' |chpasswd
 
 #Utilities
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim less nano maven ntp net-tools inetutils-ping curl git telnet
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y vim less nano maven ntp net-tools inetutils-ping curl git telnet
 
 #Install Oracle Java 7
 RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' > /etc/apt/sources.list.d/java.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
     apt-get update && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y oracle-java7-installer
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y oracle-java7-installer
 
 #ElasticSearch
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.tar.gz && \
@@ -48,12 +48,12 @@ RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA1.1.t
     mv kibana-* kibana
 
 #NGINX
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common python-software-properties && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y software-properties-common python-software-properties && \
     add-apt-repository ppa:nginx/stable && \
     echo 'deb http://packages.dotdeb.org squeeze all' >> /etc/apt/sources.list && \
     curl http://www.dotdeb.org/dotdeb.gpg | apt-key add - && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
+    DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends install -y nginx
 
 #Logstash
 RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz && \
