@@ -11,7 +11,7 @@ RUN	echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
 RUN DEBIAN_FRONTEND=noninteractive apt-get clean
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade
+RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --no-install-recommends
 
 #Supervisord
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y supervisor && \
