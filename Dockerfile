@@ -18,11 +18,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y su
 	mkdir -p /var/log/supervisor
 CMD ["/usr/bin/supervisord", "-n"]
 
-#SSHD
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y openssh-server && \
-	mkdir /var/run/sshd && chmod 700 /var/run/sshd && \
-	echo 'root:root' |chpasswd
-
 #Utilities
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y vim less nano maven ntp net-tools inetutils-ping curl git telnet
 
