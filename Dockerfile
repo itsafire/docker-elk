@@ -1,9 +1,7 @@
 #Kibana
 
-FROM ubuntu:14.04
+FROM ubuntu:16.04
  
-#RUN echo 'deb http://archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
-#    echo 'deb http://archive.ubuntu.com/ubuntu precise-updates universe' >> /etc/apt/sources.list && \
 #Prevent daemon start during install
 RUN	echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
@@ -19,14 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y su
 CMD ["/usr/bin/supervisord", "-n"]
 
 #Utilities
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y vim less nano maven ntp net-tools inetutils-ping curl git telnet
-
-#Install Oracle Java 7
-RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' > /etc/apt/sources.list.d/java.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
-    apt-get update && \
-    echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y oracle-java8-installer
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y vim less nano ntp net-tools inetutils-ping curl git telnet wget openjdk-8-jdk-headless nginx
 
 #ElasticSearch
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.7.2.tar.gz && \
@@ -36,19 +27,10 @@ RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elastics
     elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 #Kibana
-#RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz && \
 RUN wget https://download.elastic.co/kibana/kibana/kibana-4.1.2-linux-x64.tar.gz && \
     tar xf kibana-*.tar.gz && \
     rm kibana-*.tar.gz && \
     mv kibana-* kibana
-
-#NGINX
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y software-properties-common python-software-properties && \
-    add-apt-repository ppa:nginx/stable && \
-    echo 'deb http://packages.dotdeb.org squeeze all' >> /etc/apt/sources.list && \
-    curl http://www.dotdeb.org/dotdeb.gpg | apt-key add - && \
-    DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends install -y nginx
 
 #Logstash
 RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.5.4.tar.gz && \
@@ -57,14 +39,14 @@ RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.5.4.tar
     mv logstash-* logstash
     
 #LogGenerator
-RUN git clone https://github.com/vspiewak/log-generator.git && \
-	cd log-generator && \
-	/usr/share/maven/bin/mvn clean package
+#RUN git clone https://github.com/vspiewak/log-generator.git && \
+#	cd log-generator && \
+#	/usr/share/maven/bin/mvn clean package
 
 #Geo
-RUN wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz && \
-	gunzip GeoLiteCity.dat.gz && \
-    mv GeoLiteCity.dat /log-generator/GeoLiteCity.dat
+#RUN wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz && \
+#	gunzip GeoLiteCity.dat.gz && \
+#    mv GeoLiteCity.dat /log-generator/GeoLiteCity.dat
 
 #Configuration
 ADD ./ /docker-elk
