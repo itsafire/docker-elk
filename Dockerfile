@@ -29,6 +29,7 @@ RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-7.4.0-linux-x86_64
     tar xf kibana-*.tar.gz && \
     rm kibana-*.tar.gz && \
     mv kibana-* kibana && \
+    sed -i "s/^.server.host: .localhost./server.host: 0.0.0.0/" kibana/config/kibana.yml && \
     chown -R www-data:www-data kibana
     
 
