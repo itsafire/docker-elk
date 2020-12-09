@@ -20,12 +20,12 @@ CMD ["/usr/bin/supervisord", "-n"]
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y vim less nano ntp net-tools inetutils-ping curl git telnet wget nginx ca-certificates openjdk-11-jre-headless
 
 #ElasticSearch
-RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.0-amd64.deb && \
+RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.10.0-amd64.deb && \
     dpkg -i elasticsearch*.deb && \
     rm elasticsearch-*.deb
 
 #Kibana
-RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-7.4.0-linux-x86_64.tar.gz && \
+RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-7.10.0-linux-x86_64.tar.gz && \
     tar xf kibana-*.tar.gz && \
     rm kibana-*.tar.gz && \
     mv kibana-* kibana && \
@@ -33,12 +33,12 @@ RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-7.4.0-linux-x86_64
     chown -R www-data:www-data kibana
     
 
-RUN wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.0-amd64.deb && \
+RUN wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.10.0-amd64.deb && \
     dpkg -i metricbeat*.deb && \
     rm metricbeat*.deb
 
 #Logstash
-RUN wget https://artifacts.elastic.co/downloads/logstash/logstash-7.4.0.deb && \
+RUN wget https://artifacts.elastic.co/downloads/logstash/logstash-7.10.0-amd64.deb && \
     dpkg -i logstash*.deb && \
     rm logstash-*.deb
 
